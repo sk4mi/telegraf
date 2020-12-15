@@ -14,6 +14,7 @@ import (
 	"github.com/influxdata/telegraf/plugins/parsers/json"
 	"github.com/influxdata/telegraf/plugins/parsers/logfmt"
 	"github.com/influxdata/telegraf/plugins/parsers/nagios"
+	"github.com/sk4mi/telegraf/plugins/parsers/opentsdb"
 	"github.com/influxdata/telegraf/plugins/parsers/prometheus"
 	"github.com/influxdata/telegraf/plugins/parsers/value"
 	"github.com/influxdata/telegraf/plugins/parsers/wavefront"
@@ -178,6 +179,8 @@ func NewParser(config *Config) (Parser, error) {
 		parser, err = NewInfluxParser()
 	case "nagios":
 		parser, err = NewNagiosParser()
+	case "openstdb":
+		parser, err = NewOpentsdbParser()
 	case "graphite":
 		parser, err = NewGraphiteParser(config.Separator,
 			config.Templates, config.DefaultTags)
@@ -261,6 +264,10 @@ func newGrokParser(metricName string,
 
 func NewNagiosParser() (Parser, error) {
 	return &nagios.NagiosParser{}, nil
+}
+
+func NewOpentsdbParser() (Parser, error) {
+	return opentsdb.NewOpentsdbParser()
 }
 
 func NewInfluxParser() (Parser, error) {
